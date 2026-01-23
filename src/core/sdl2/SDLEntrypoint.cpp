@@ -7,6 +7,19 @@
 #include <SDL_main.h>
 #endif
 
+#ifdef __SWITCH__
+#include <switch.h>
+
+extern "C" {
+void userAppInit(void);
+}
+
+void userAppInit(void)
+{
+	// Initialize heap to default
+}
+#endif
+
 #if defined(USE_SDL_MAIN)
 extern "C" int SDL_main(int argc, char **argv)
 #elif defined(_WIN32) && defined(_UNICODE)

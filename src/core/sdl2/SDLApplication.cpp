@@ -3009,9 +3009,14 @@ void krkrsdl2_convert_set_args(int argc, char **argv)
 bool krkrsdl2_init_platform(void)
 {
 #ifdef __SWITCH__
-	romfsInit();
-	socketInitializeDefault();
-	nxlinkStdio();
+	Result rc = romfsInit();
+	if (R_FAILED(rc)) {
+		// RomFS init failed, likely running from SD card without embedded data.
+		// We proceed, as we can load data from SD card.
+	}
+	if (R_SUCCEEDED(socketInitializeDefault())) {
+		nxlinkStdio();
+	}
 #endif
 
 	SDL_setenv("VITA_DISABLE_TOUCH_BACK", "1", 1);
